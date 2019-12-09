@@ -20,11 +20,11 @@
 
 /*
  *IIC构造函数
- *@param 指定大局显示的基本布局：	U8G2_R0 不旋转，横向，绘制方向从左到右
-									U8G2_R1 顺时针旋转90度，绘制方向从上到下
-									U8G2_R2 顺时针旋转180度，绘制方向从右到左
-									U8G2_R3 顺时针旋转270度，绘制方向从下到上
-									U8G2_MIRROR 正常显示镜像内容（v2.6.x版本以上使用)   注意:U8G2_MIRROR需要与setFlipMode（）配搭使用.
+ *@param  rotation：	U8G2_R0 不旋转，横向，绘制方向从左到右
+		                U8G2_R1 顺时针旋转90度，绘制方向从上到下
+			            U8G2_R2 顺时针旋转180度，绘制方向从右到左
+			            U8G2_R3 顺时针旋转270度，绘制方向从下到上
+			            U8G2_MIRROR 正常显示镜像内容（v2.6.x版本以上使用)   注意:U8G2_MIRROR需要与setFlipMode（）配搭使用.
  *@param reset：U8x8_PIN_NONE 表示引脚为空，不会使用复位引脚
  *
 */
@@ -37,18 +37,6 @@ void setup(void){
                           本函数的功能可理解为将坐标位置改为显示字符串的左上角为坐标标准。*/
     }
 
-/*
- * 选择字集
- * u8g2_font_open_iconic_all_1x_t :Width :8  Height :8  encoding : 64-286
- * u8g2_font_open_iconic_all_2x_t :Width :16  Height :16  encoding : 64-286
- * u8g2_font_open_iconic_all_4x_t :Width :32  Height :32  encoding : 64-286
-*/
-
-/*
- * all:  app  arrow  check  email  embedded  gui  human  other  play  text  thing  weather  www
- * all具体化后每次的encoding都是从64开始，数量不定(这样可以节约内存)
- **想要知道每个图标的具体encoding值，可以通过网址https://github.com/olikraus/u8g2/wiki/fntlistall查询icon进行查看
-*/
 
 void loop(void){
   /*
@@ -60,6 +48,19 @@ void loop(void){
    for( int i = 64 ;i < 287; i += 3){
      u8g2.clear();
      do {
+		 
+   /*
+    * 选择字集
+    * u8g2_font_open_iconic_all_1x_t :Width :8  Height :8  encoding : 64-286
+    * u8g2_font_open_iconic_all_2x_t :Width :16  Height :16  encoding : 64-286
+    * u8g2_font_open_iconic_all_4x_t :Width :32  Height :32  encoding : 64-286
+  */
+
+  /*
+   * all:  app  arrow  check  email  embedded  gui  human  other  play  text  thing  weather  www
+   * all具体化后每次的encoding都是从64开始，数量不定(这样可以节约内存)
+   **想要知道每个图标的具体encoding值，可以通过网址https://github.com/olikraus/u8g2/wiki/fntlistall查询icon进行查看
+  */
        u8g2.setFont(u8g2_font_open_iconic_all_4x_t);  //选择“u8g2_font_open_iconic_all_4x_t”为字体样式
        u8g2.drawGlyph(/* x=*/0, /* y=*/0, /* encoding=*/i);    //以x=0，y=0为坐标绘制第一个字集代码  //drawGlyph(u8g2_uint_t x, u8g2_uint_t y, /*字集代码*/uint16_t encoding);
        u8g2.drawGlyph(/* x=*/40, /* y=*/0, /* encoding=*/i+1); //以x=40，y=0为坐标绘制第二个字集代码

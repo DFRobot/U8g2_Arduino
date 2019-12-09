@@ -19,11 +19,11 @@
 
 /*
  *IIC构造函数
- *@param 指定大局显示的基本布局：	U8G2_R0 不旋转，横向，绘制方向从左到右
-									U8G2_R1 顺时针旋转90度，绘制方向从上到下
-									U8G2_R2 顺时针旋转180度，绘制方向从右到左
-									U8G2_R3 顺时针旋转270度，绘制方向从下到上
-									U8G2_MIRROR 正常显示镜像内容（v2.6.x版本以上使用)   注意:U8G2_MIRROR需要与setFlipMode（）配搭使用.
+ *@param  rotation：	U8G2_R0 不旋转，横向，绘制方向从左到右
+		                U8G2_R1 顺时针旋转90度，绘制方向从上到下
+			            U8G2_R2 顺时针旋转180度，绘制方向从右到左
+			            U8G2_R3 顺时针旋转270度，绘制方向从下到上
+			            U8G2_MIRROR 正常显示镜像内容（v2.6.x版本以上使用)   注意:U8G2_MIRROR需要与setFlipMode（）配搭使用.
  *@param reset：U8x8_PIN_NONE 表示引脚为空，不会使用复位引脚
  *
 */
@@ -39,7 +39,7 @@ void loop(void)
   /*字库占用的内存较大，谨慎使用。若只需显示固定几个字，可自行获得汉字编码，
   通过drawXBM的方法去显示。或者使用内存更大的主控*/
   u8g2.setFont(u8g2_font_unifont_t_chinese2);  //对“你好世界”的所有字形使用chinese2
-  //u8g2.setFont(u8g2_font_b10_t_japanese1);  // 日语中已经包含了所有“こんにちは世界”的字形1：Lerning 1-6级
+  //u8g2.setFont(u8g2_font_b10_t_japanese1);  // 日语中已经包含了所有“こんにちは世界”的字形1：Lerning 1-6级 ，日语需要比UNO的内存更大主控
   //u8g2.setFont(u8g2_font_unifont_t_korean1);  // 日语中已经包含了所有“안녕하세요세계”的字形：Lerning 1-2级
   u8g2.setFontDirection(0);   //设置字体方向，弦旋转0度，左到右
   
