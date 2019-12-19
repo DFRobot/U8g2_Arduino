@@ -36,10 +36,14 @@ void setup(void) {
 
 void loop(void) 
 {
-  /*字库占用的内存较大，谨慎使用。若只需显示固定几个字，可自行获得汉字编码，
-  通过drawXBM的方法去显示。或者使用内存更大的主控*/
+  /*
+   *字库占用的内存较大，谨慎使用。若只需显示固定几个字，可自行获得汉字编码，
+   *通过drawXBM的方法去显示。或者使用内存更大的主控
+   *中文字库：需要使用比Leonardo内存更大的主控
+   *日文字库：需要使用比UNO内存更大的主控
+  */
   u8g2.setFont(u8g2_font_unifont_t_chinese2);  //对“你好世界”的所有字形使用chinese2
-  //u8g2.setFont(u8g2_font_b10_t_japanese1);  // 日语中已经包含了所有“こんにちは世界”的字形1：Lerning 1-6级 ，日语需要比UNO的内存更大主控
+  //u8g2.setFont(u8g2_font_b10_t_japanese1);  // 日语中已经包含了所有“こんにちは世界”的字形1：Lerning 1-6级 
   //u8g2.setFont(u8g2_font_unifont_t_korean1);  // 日语中已经包含了所有“안녕하세요세계”的字形：Lerning 1-2级
   u8g2.setFontDirection(0);   //设置字体方向，弦旋转0度，左到右
   
