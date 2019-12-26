@@ -16,7 +16,10 @@
 #include <Arduino.h>
 #include <U8g2lib.h>
 
-#include <SPI.h>
+/*
+ * 默认只打开了IIC;若想使用SPI，则将对应的有关SPI的文件和实体化函数打开，将IIC的实体化函数注释掉
+*/
+//#include <SPI.h>
 #include <Wire.h>
 
 /*
@@ -72,11 +75,12 @@ void draw(int a )
 {
   for( int i = 0; i <2 ; i++)
   {
-   /*
-	* firstPage方法会把当前页码位置变成0
-	* 修改内容处于firstPage和nextPage之间，每次都是重新渲染所有内容
-	* 该方法消耗的ram空间，比sendBuffer消耗的ram空间要少
-   */ 
+  /*
+   * u8g2.firstPage()/nextPage()：循环刷新显示。
+   * firstPage方法会把当前页码位置变成0
+   * 修改内容处于firstPage和nextPage之间，每次都是重新渲染所有内容
+   * 该方法消耗的ram空间，比sendBuffer消耗的ram空间要少
+  */ 
     u8g2.firstPage();   
     do
 	  {

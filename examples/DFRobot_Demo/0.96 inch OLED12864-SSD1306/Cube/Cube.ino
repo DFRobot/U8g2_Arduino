@@ -15,8 +15,12 @@
 #include <Arduino.h>
 #include <U8g2lib.h>
 
+
+/*
+ * 默认只打开了SPI;若想使用IIC，则将对应的有关IIC的文件和实体化函数打开，将SPI的实体化函数注释掉
+*/
 #include <SPI.h>
-#include <Wire.h>
+//#include <Wire.h>
 
 
 /*
@@ -32,8 +36,8 @@
  *@param  dc 按引脚接上即可（引脚可自己选择）
  *
 */
-U8G2_SSD1306_128X64_NONAME_F_HW_I2C u8g2(/* rotation=*/U8G2_R0, /* reset=*/ U8X8_PIN_NONE);    //  M0/ESP32/ESP8266/mega2560/Uno/Leonardo
-//U8G2_SSD1306_128X64_NONAME_1_4W_HW_SPI u8g2(/* rotation=*/U8G2_R0, /* cs=*/ 10, /* dc=*/ 9);
+//U8G2_SSD1306_128X64_NONAME_F_HW_I2C u8g2(/* rotation=*/U8G2_R0, /* reset=*/ U8X8_PIN_NONE);    //  M0/ESP32/ESP8266/mega2560/Uno/Leonardo
+U8G2_SSD1306_128X64_NONAME_1_4W_HW_SPI u8g2(/* rotation=*/U8G2_R0, /* cs=*/ 10, /* dc=*/ 9);
 
 
 //二维数组，里面存储了四面体所有顶点的坐标
@@ -43,6 +47,12 @@ void setup(void) {
 }
 
 void loop(void) {
+  /*
+   * u8g2.firstPage()/nextPage()：循环刷新显示。
+   * firstPage方法会把当前页码位置变成0
+   * 修改内容处于firstPage和nextPage之间，每次都是重新渲染所有内容
+   * 该方法消耗的ram空间，比sendBuffer消耗的ram空间要少
+  */ 
   u8g2.firstPage();
   do {
   //将四面体里面相对应的点连接到一起

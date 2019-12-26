@@ -42,30 +42,45 @@ void u8g2_prepare(void) {
   u8g2.setFontDirection(0);	//设置屏幕方向：0--为正常显示
 }
 
+/*
+ * 绘制边框主题
+*/
 void u8g2_box_title(uint8_t a) {
-  u8g2.drawStr( 10+a*2, 5, "U8g2");
+  u8g2.drawStr( 10+a*2, 5, "U8g2");//绘制字符串“U8g2”
   u8g2.drawStr( 10, 20, "GraphicsTest");
   u8g2.drawFrame(0,0,u8g2.getDisplayWidth(),u8g2.getDisplayHeight() );//在坐标为(0,0)的位置开始绘制一个宽度w和高度h的空框
 }
 
+/*
+ * 绘制实心方形和空心方形
+*/
 void u8g2_box_frame(uint8_t a) {
   u8g2.drawStr(0,0,"drawBox-drawFrame");
-  u8g2.drawBox(5+a,9,50,10); //在坐标为(5+a,9)的位置开始绘制一个宽度w和高度h的实心框
-  u8g2.drawFrame(5+a,20,50,10);
+  u8g2.drawBox(5+a,9,50,10); //在坐标为(5+a,9)的位置开始绘制一个宽度w和高度h的实心方形
+  u8g2.drawFrame(5+a,20,50,10);//在坐标为(5+a,20)的位置开始绘制一个宽度w和高度h的空心方形
 }
 
+/*
+ * 绘制实心圆和空心圆
+*/
 void u8g2_circle_disc(uint8_t a){
   u8g2.drawStr(0,0,"drawDisc-drawCircle");
   u8g2.drawCircle(10+a,20,10);  //在位置(10+a,20)绘制一个半径为10的实心圆
   u8g2.drawDisc(118-a,20,10);   //在位置(118-a,20)绘制一个半径为10的空心圆
 }
 
+/*
+ * 绘制实心圆和空心圆
+*/
 void u8g2_RBox_RFrame(uint8_t a){
   u8g2.drawStr(0,0,"drawRBox-drawRFrame");
   u8g2.drawRBox(5+a,9,30,20,a+1);   //在位置(5+a,9)开始绘制宽度为40，高度为30一个具有半径为a+1的圆形边缘的框（空心）。
   u8g2.drawRFrame(90-a,9,30,20,a+1);  //在位置(90-a,9)开始绘制宽度为25，高度为40一个具有半径为a+1的圆形边缘的框（实心）。
 }
 
+/*
+ * 绘制射线
+*/
 void u8g2_Hline(uint8_t a){
   u8g2.drawStr(0,0,"drawHLine");
   u8g2.drawHLine(1,10,40+a*5); //在坐标为（1，10）画一条射线
@@ -73,6 +88,9 @@ void u8g2_Hline(uint8_t a){
   u8g2.drawHLine(20,30,40+a*5);
 }
 
+/*
+ * 绘制线段
+*/
 void u8g2_line(uint8_t a){
   u8g2.drawStr(0,0,"drawLine");
   u8g2.drawLine(10+a,10,80-a,32); //在两点之间画一条线。（参数为两点坐标）
@@ -81,6 +99,9 @@ void u8g2_line(uint8_t a){
   u8g2.drawLine(10+a*4,10,80-a*4,32);
 }
 
+/*
+ * 绘制实心三角形和空心三角形
+*/
 void u8g2_triangle(uint8_t a) {
   uint16_t offset = a;
   u8g2.drawStr( 0, 0, "drawTriangle");
@@ -90,6 +111,9 @@ void u8g2_triangle(uint8_t a) {
   u8g2.drawTriangle(10+offset,40+offset, 45+offset,30+offset, 86+offset,53+offset);
 }
 
+/*
+ * 显示ASCII码表中的字符
+*/
 void u8g2_ascii_1() {
   char s[2] = " ";
   uint8_t x, y;
@@ -114,6 +138,9 @@ void u8g2_ascii_2() {
   }
 }
 
+/*
+ * 绘制UTF-8编码中的字符串图标
+*/
 void u8g2_extra_page(uint8_t a)
 {
   u8g2.drawStr( 0, 0, "Unicode");
@@ -136,6 +163,9 @@ void u8g2_extra_page(uint8_t a)
   }
 }
 
+/*
+ * 显示字体的反显
+*/
 void u8g2_xor(uint8_t a) {
   uint8_t i;
   u8g2.drawStr( 0, 0, "XOR");
@@ -178,14 +208,23 @@ static const unsigned char cross_block_bits[] U8X8_PROGMEM  = {
   0xC1, 0x20, 0xC1, 0x20, 0x01, 0x20, 0x01, 0x20, 0x01, 0x20, 0x01, 0x20, 
   0x01, 0x20, 0xFF, 0x3F, };
 
+/*
+ * 绘制位图
+*/
 void u8g2_bitmap_overlay(uint8_t a) {
   uint8_t frame_size = 28;
-
   u8g2.drawStr(0, 0, "Bitmap overlay");
-
   u8g2.drawStr(0, frame_size + 12, "Solid / transparent");
+/*
+ * 设置位图的模式，定义位图函数是否将写入背景色（模式0 / solid，is_transparent = 0）
+ * 或不写入背景颜色（模式1 / transparent，is_transparent = 1）。默认模式为0（固定模式）
+*/
   u8g2.setBitmapMode(false /* solid */);
   u8g2.drawFrame(0, 10, frame_size, frame_size);
+/*
+ * 位置（x，y）是位图的左上角。XBM包含单色的1位位图。
+ * 当前的颜色索引用于绘制（请参阅setColorIndex）像素值1
+*/
   u8g2.drawXBMP(2, 12, cross_width, cross_height, cross_bits);
   if(a & 4)
     u8g2.drawXBMP(7, 17, cross_block_width, cross_block_height, cross_block_bits);//绘制位图
@@ -197,8 +236,12 @@ void u8g2_bitmap_overlay(uint8_t a) {
     u8g2.drawXBMP(frame_size + 12, 17, cross_block_width, cross_block_height, cross_block_bits);
 }
 
+//定义绘制状态的初始变量
 uint8_t draw_state = 0;
 
+/*
+ * 绘制函数，用于对其他函数的有序调用
+*/
 void draw(void) {
   u8g2_prepare();
   switch(draw_state >> 3) {
@@ -218,22 +261,20 @@ void draw(void) {
 }
 
 void setup(void) {
-  u8g2.begin();
+  u8g2.begin(); //初始化函数
 }
 
 void loop(void) {
-  // picture loop  
+  //图片循环  
   u8g2.firstPage();  
   do {
     draw();
   } while( u8g2.nextPage() );
   
-  // increase the state
+  //状态变量增加
   draw_state++;
   if ( draw_state >= 14*8 )
     draw_state = 0;
 
-  // delay between each page
   delay(150);
-
 }

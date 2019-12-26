@@ -31,7 +31,7 @@ U8G2_SSD1306_128X32_UNIVISION_F_HW_I2C u8g2(U8G2_R0, /* reset=*/ U8X8_PIN_NONE);
 
 
 void setup(void){
-  u8g2.begin();            //初始化函数
+  u8g2.begin();           //初始化函数
   u8g2.setFontPosTop();   /*使用drawStr显示字符串时，默认标准为显示字符的左下角坐标。
                           本函数的功能可理解为将坐标位置改为显示字符串的左上角为坐标标准。*/
     }
@@ -44,13 +44,13 @@ void loop(void){
   
   delay(1000);               //等待1000ms
    
-  u8g2.clearBuffer();             
+  u8g2.clearBuffer();     //清除缓存        
   
   u8g2.setFont(u8g2_font_secretaryhand_tf); 
-  u8g2.drawStr(0, 0, "DFR123");   
+  u8g2.drawStr(0, 0, "DFR123");    //drawGlyph(u8g2_uint_t x, u8g2_uint_t y, uint16_t encoding);
   
   u8g2.setFont(u8g2_font_heavybottom_tr);
-  u8g2.drawStr(70, 0, "DFR12");   //drawGlyph(u8g2_uint_t x, u8g2_uint_t y, uint16_t encoding);
+  u8g2.drawStr(70, 0, "DFR123");   //drawGlyph(u8g2_uint_t x, u8g2_uint_t y, uint16_t encoding);
   
   u8g2.setFont(u8g2_font_fancypixels_tf);
   u8g2.drawStr(0, 20, "DFR123");  //drawGlyph(u8g2_uint_t x, u8g2_uint_t y, uint16_t encoding);

@@ -59,6 +59,7 @@ void loop(void)
 				 dir=1，旋转90度
 				 dir=2，旋转180度
 				 dir=3，旋转270度
+	     *@param 设置字体方向后，要重新设置光标位置才能正常显示；如果不懂可以参考API的解释
         */
         u8g2.setFontDirection(0);           
         u8g2.drawStr(/* x=*/33, /* y=*/32, "DFR");

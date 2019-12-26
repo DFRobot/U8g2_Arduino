@@ -16,7 +16,10 @@
 #include <Arduino.h>
 #include <U8g2lib.h>
 
-#include <SPI.h>
+/*
+ * 默认只打开了IIC;若想使用SPI，则将对应的有关SPI的文件和实体化函数打开，将IIC的实体化函数注释掉
+*/
+//#include <SPI.h>
 #include <Wire.h>
 
 /*
@@ -51,20 +54,20 @@ const uint8_t col[] U8X8_PROGMEM= {0x00,0xc0,0x00,0x00,0x00,0xe0,0x01,0x00,0x00,
 void setup() {
   u8g2.begin();
   u8g2.setFontPosTop();/*使用drawStr显示字符串时，默认标准为显示字符的左下角坐标。
-                          本函数的功能可理解为将坐标位置改为显示字符串的左上角为坐标标准。*/
+                          本函数的功能可理解为将标准改为显示字符串的左上角为坐标。*/
 }
 
 void Rotation() {
-  u8g2.setFont(u8g2_font_bracketedbabies_tr        );
+  u8g2.setFont(u8g2_font_bracketedbabies_tr);
   u8g2.firstPage(); 
   do {
     u8g2.drawXBMP( /* x=*/0 , /* y=*/0 , /* width=*/30 , /* height=*/30 , col );//绘制图像
 	/*@brief 设置所有字符串或字形的绘制方向setFontDirection(uint8_t dir)
-     *@param dir=0，旋转0度
-		     dir=1，旋转90度
-			 dir=2，旋转180度
-			 dir=3，旋转270度
-    */
+   *@param dir=0，旋转0度
+		       dir=1，旋转90度
+			     dir=2，旋转180度
+			     dir=3，旋转270度
+  */
     u8g2.setFontDirection(0);			
     u8g2.drawStr( /* x=*/64,/* y=*/32, " DFR");		//绘制字符串
     u8g2.setFontDirection(1);
@@ -79,7 +82,7 @@ void Rotation() {
 
 void loop(void)
 { 
-    u8g2.setFont( u8g2_font_sticker_mel_tr      );
+    u8g2.setFont( u8g2_font_sticker_mel_tr);
     for(int i = 0 ; i < 4 ; i++ )
     {
        switch(i)
@@ -97,11 +100,12 @@ void loop(void)
             u8g2.setFontDirection(3);
             break;
        }
-	  /*
-	   * firstPage方法会把当前页码位置变成0
-	   * 修改内容处于firstPage和nextPage之间，每次都是重新渲染所有内容
-	   * 该方法消耗的ram空间，比sendBuffer消耗的ram空间要少
-	  */ 
+	   /*
+      * u8g2.firstPage()/nextPage()：循环刷新显示。
+      * firstPage方法会把当前页码位置变成0
+      * 修改内容处于firstPage和nextPage之间，每次都是重新渲染所有内容
+       * 该方法消耗的ram空间，比sendBuffer消耗的ram空间要少
+     */ 
       u8g2.firstPage();  
       do 
       {

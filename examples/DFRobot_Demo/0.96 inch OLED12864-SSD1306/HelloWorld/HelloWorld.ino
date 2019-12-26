@@ -15,7 +15,10 @@
 #include <Arduino.h>
 #include <U8g2lib.h>
 
-#include <SPI.h>
+/*
+ * 默认只打开了IIC;若想使用SPI，则将对应的有关SPI的文件和实体化函数打开，将IIC的实体化函数注释掉
+*/
+//#include <SPI.h>
 #include <Wire.h>
 
 /*
@@ -34,7 +37,7 @@
 U8G2_SSD1306_128X64_NONAME_F_HW_I2C u8g2(/* rotation=*/U8G2_R0, /* reset=*/ U8X8_PIN_NONE);    //  M0/ESP32/ESP8266/mega2560/Uno/Leonardo
 //U8G2_SSD1306_128X64_NONAME_1_4W_HW_SPI u8g2(/* rotation=*/U8G2_R0, /* cs=*/ 10, /* dc=*/ 9);
 
-// End of constructor list
+
 
 
 void setup(void) {

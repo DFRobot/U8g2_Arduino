@@ -162,6 +162,10 @@
   Uno U8G2_SSD1306_128X64_NONAME_F_HW_I2C	HW I2C		FPS: Clip=18.3 Box=20.8  @=6.7 Pix=9.1		new SSD13xx cad procedure (lightning version)
 */
 
+/*
+	This demo can be displayed normally on OLED with a resolution of 128x64, 
+	while it will be displayed incomplete in the 128x32 OLED.	
+*/
 
 #include <Arduino.h>
 #include <U8g2lib.h>
@@ -184,6 +188,10 @@
 // Please update the pin numbers according to your setup. Use U8X8_PIN_NONE if the reset pin is not connected
 
 
+/*
+	Please use the corresponding instantiation-function when using the display 
+	with different resolutions and communication ways.
+*/
 //  M0/ESP32/ESP8266/mega2560/Uno/Leonardo
 //U8G2_SSD1306_128X64_NONAME_F_4W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 10, /* dc=*/ 9);
 //U8G2_SSD1306_128X64_NONAME_F_HW_I2C u8g2(U8G2_R0, /* reset=*/ U8X8_PIN_NONE);

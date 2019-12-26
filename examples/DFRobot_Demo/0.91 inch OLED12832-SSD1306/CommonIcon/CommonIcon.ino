@@ -39,28 +39,30 @@ void setup(void){
 
 
 void loop(void){
-  /*
-   * firstPage方法会把当前页码位置变成0
-   * 修改内容处于firstPage和nextPage之间，每次都是重新渲染所有内容
-   * 该方法消耗的ram空间，比sendBuffer消耗的ram空间要少
-  */
+/*
+ * u8g2.firstPage()/nextPage()：循环刷新显示。
+ * firstPage方法会把当前页码位置变成0
+ * 修改内容处于firstPage和nextPage之间，每次都是重新渲染所有内容
+ * 该方法消耗的ram空间，比sendBuffer消耗的ram空间要少
+*/
    u8g2.firstPage();
    for( int i = 64 ;i < 287; i += 3){
      u8g2.clear();
      do {
 		 
-   /*
-    * 选择字集
-    * u8g2_font_open_iconic_all_1x_t :Width :8  Height :8  encoding : 64-286
-    * u8g2_font_open_iconic_all_2x_t :Width :16  Height :16  encoding : 64-286
-    * u8g2_font_open_iconic_all_4x_t :Width :32  Height :32  encoding : 64-286
-  */
+/*
+ * 选择字集
+ * u8g2_font_open_iconic_all_1x_t :Width :8  Height :8  
+ * u8g2_font_open_iconic_all_2x_t :Width :16  Height :16  
+ * u8g2_font_open_iconic_all_4x_t :Width :32  Height :32  
+ * u8g2_font_open_iconic_all_6x_t :Width :48  Height :48  
+ * u8g2_font_open_iconic_all_8x_t :Width :64  Height :64  
+*/
 
-  /*
-   * all:  app  arrow  check  email  embedded  gui  human  other  play  text  thing  weather  www
-   * all具体化后每次的encoding都是从64开始，数量不定(这样可以节约内存)
-   **想要知道每个图标的具体encoding值，可以通过网址https://github.com/olikraus/u8g2/wiki/fntlistall查询icon进行查看
-  */
+/*
+ * all:  app  arrow  check  email  embedded  gui  human  other  play  text  thing  weather  www
+ * all可以细分成不同的类型，图标也对应分到类型中。想要知道每个图标属于哪一类及其具体encoding值，可以通过网址https://github.com/olikraus/u8g2/wiki/fntlistall查询icon进行查看
+*/
        u8g2.setFont(u8g2_font_open_iconic_all_4x_t);  //选择“u8g2_font_open_iconic_all_4x_t”为字体样式
        u8g2.drawGlyph(/* x=*/0, /* y=*/0, /* encoding=*/i);    //以x=0，y=0为坐标绘制第一个字集代码  //drawGlyph(u8g2_uint_t x, u8g2_uint_t y, /*字集代码*/uint16_t encoding);
        u8g2.drawGlyph(/* x=*/40, /* y=*/0, /* encoding=*/i+1); //以x=40，y=0为坐标绘制第二个字集代码

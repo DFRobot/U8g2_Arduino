@@ -16,7 +16,10 @@
 #include <Arduino.h>
 #include <U8g2lib.h>
 
-#include <SPI.h>
+/*
+ * 默认只打开了IIC;若想使用SPI，则将对应的有关SPI的文件和实体化函数打开，将IIC的实体化函数注释掉
+*/
+//#include <SPI.h>
 #include <Wire.h>
 
 /*
@@ -40,27 +43,27 @@ void setup(void)
 {
   u8g2.begin();
   u8g2.setFontPosTop();  /*使用drawStr显示字符串时，默认标准为显示字符的左下角坐标。
-                          本函数的功能可理解为将坐标位置改为显示字符串的左上角为坐标标准。*/
+                          本函数的功能可理解为将标准改为显示字符串的左上角为坐标。*/
 }
 
 
 /*
  * 选择字集
- * u8g2_font_open_iconic_all_1x_t :Width :8  Height :8  encoding : 64-286
- * u8g2_font_open_iconic_all_2x_t :Width :16  Height :16  encoding : 64-286
- * u8g2_font_open_iconic_all_4x_t :Width :32  Height :32  encoding : 64-286
- * u8g2_font_open_iconic_all_6x_t :Width :48  Height :48  encoding : 64-286
- * u8g2_font_open_iconic_all_8x_t :Width :64  Height :64  encoding : 64-286
+ * u8g2_font_open_iconic_all_1x_t :Width :8  Height :8  
+ * u8g2_font_open_iconic_all_2x_t :Width :16  Height :16  
+ * u8g2_font_open_iconic_all_4x_t :Width :32  Height :32  
+ * u8g2_font_open_iconic_all_6x_t :Width :48  Height :48  
+ * u8g2_font_open_iconic_all_8x_t :Width :64  Height :64  
 */
 
 /*
  * all:  app  arrow  check  email  embedded  gui  human  other  play  text  thing  weather  www
- * all具体化后每次的encoding都是从64开始，数量不定(这样可以节约内存)
- *想要知道每个图标的具体encoding值，可以通过网址https://github.com/olikraus/u8g2/wiki/fntlistall查询icon进行查看
+ * all可以细分成不同的类型，图标也对应分到类型中。想要知道每个图标属于哪一类及其具体encoding值，可以通过网址https://github.com/olikraus/u8g2/wiki/fntlistall查询icon进行查看
 */
 void loop(void)
 {
   /*
+   * u8g2.firstPage()/nextPage()：循环刷新显示。
    * firstPage方法会把当前页码位置变成0
    * 修改内容处于firstPage和nextPage之间，每次都是重新渲染所有内容
    * 该方法消耗的ram空间，比sendBuffer消耗的ram空间要少
@@ -71,7 +74,11 @@ void loop(void)
    do
    {
       u8g2.setFont(u8g2_font_open_iconic_all_4x_t );
-      u8g2.drawGlyph(/* x=*/0, /* y=*/16, /* encoding=*/i);  //drawGlyph(u8g2_uint_t x, u8g2_uint_t y, uint16_t encoding);
+      /*
+       * 绘制字体字集的符号。
+       * U8g2支持16位以内的unicode字符集。也就是说encoding的范围为0-65535，drawGlyph方法只能绘制存在于所使用的字体字集中的unicode值；
+      */
+      u8g2.drawGlyph(/* x=*/0, /* y=*/16, /* encoding=*/i);  
       u8g2.drawGlyph(/* x=*/48, /* y=*/16, /* encoding=*/i+1);  
       u8g2.drawGlyph(/* x=*/96, /* y=*/16, /* encoding=*/i+2);  
    } while ( u8g2.nextPage() );
@@ -79,5 +86,4 @@ void loop(void)
    delay(2000);
   }
 }
-
 

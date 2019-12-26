@@ -36,6 +36,12 @@ void setup(void) {
 }
 
 void loop(void) {
+  /*
+   * u8g2.firstPage()/nextPage()：循环刷新显示。
+   * firstPage方法会把当前页码位置变成0
+   * 修改内容处于firstPage和nextPage之间，每次都是重新渲染所有内容
+   * 该方法消耗的ram空间，比sendBuffer消耗的ram空间要少
+  */ 
   u8g2.firstPage();
   do {
   //将四面体里面相对应的点连接到一起
@@ -51,6 +57,7 @@ void loop(void) {
   } while ( u8g2.nextPage() );
   //delay(50);
 }
+
 /*！
  * @brief 将三维坐标系Oxyz里的xz转化为二维坐标系Ouv里面的 u坐标
  * @param 三维坐标系Oxyz里的x坐标    
@@ -73,6 +80,7 @@ int OxyzToOu(double x,double z){
 int OxyzToOv(double y,double z){
     return (int)((y + 15) - z*0.35);
 }
+
 /*!
  * @brief  将整个三维图形的所有点的坐标绕 Z轴旋转
  * @param  angle 表示要旋转的角度
@@ -82,7 +90,7 @@ int OxyzToOv(double y,double z){
     y3 = y1 * cosb + x2 * sinb
     z3 = z2
  */
-
+ 
 void rotate(double angle)
 {
   double rad, cosa, sina, Xn, Yn;

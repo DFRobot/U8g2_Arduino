@@ -47,6 +47,10 @@
 // Please update the pin numbers according to your setup. Use U8X8_PIN_NONE if the reset pin is not connected
 
 
+/*
+	Please use the corresponding instantiation-function when using the display 
+	with different resolutions and communication ways.
+*/
 //  M0/ESP32/ESP8266/mega2560/Uno/Leonardo
 //U8X8_SSD1306_128X64_NONAME_4W_HW_SPI u8x8(/* cs=*/ 10, /* dc=*/ 9);
 //U8X8_SSD1306_128X64_NONAME_HW_I2C u8x8(/* reset=*/ U8X8_PIN_NONE); 	      
