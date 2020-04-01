@@ -1,8 +1,8 @@
 /*!
  * @file Font.ino
- * @brief U8G2中支持的几种字体方向的显示
- * @n U8G2支持多种字体，此demo只展示了四种方向（没有展示镜像）。
- * @n U8G2字体GitHub连接：https://github.com/olikraus/u8g2/wiki/fntlistall
+ * @brief Display of several font directions supported in U8G2
+ * @n U8G2 supports multiple fonts, and this demo shows only four directions (no mirrors are shown).
+ * @n U8G2 Font GitHub Link：https://github.com/olikraus/u8g2/wiki/fntlistall
  * 
  * @copyright  Copyright (c) 2010 DFRobot Co.Ltd (http://www.dfrobot.com)
  * @licence     The MIT License (MIT)
@@ -16,23 +16,21 @@
 #include <Arduino.h>
 #include <U8g2lib.h>
 
-/*
- * 默认只打开了IIC;若想使用SPI，则将对应的有关SPI的文件和实体化函数打开，将IIC的实体化函数注释掉
-*/
 //#include <SPI.h>
 #include <Wire.h>
 
 /*
- * 显示屏硬件IIC接口构造函数
- *@param rotation：U8G2_R0 不旋转，横向，绘制方向从左到右
-		   U8G2_R1 顺时针旋转90度，绘制方向从上到下
-		   U8G2_R2 顺时针旋转180度，绘制方向从右到左
-		   U8G2_R3 顺时针旋转270度，绘制方向从下到上
-		   U8G2_MIRROR 正常显示镜像内容（v2.6.x版本以上使用)   注意:U8G2_MIRROR需要与setFlipMode（）配搭使用.
- *@param reset：U8x8_PIN_NONE 表示引脚为空，不会使用复位引脚
- * 显示屏硬件SPI接口构造函数
- *@param  cs 按引脚接上即可（引脚可自己选择）
- *@param  dc 按引脚接上即可（引脚可自己选择）
+ * Display hardware IIC interface constructor
+ *@param rotation：U8G2_R0 Not rotate, horizontally, draw direction from left to right
+           U8G2_R1 Rotate clockwise 90 degrees, drawing direction from top to bottom
+           U8G2_R2 Rotate 180 degrees clockwise, drawing in right-to-left directions
+           U8G2_R3 Rotate clockwise 270 degrees, drawing direction from bottom to top
+           U8G2_MIRROR Normal display of mirror content (v2.6.x version used above)
+           Note: U8G2_MIRROR need to be used with setFlipMode().
+ *@param reset：U8x8_PIN_NONE Indicates that the pin is empty and no reset pin is used
+ * Display hardware SPI interface constructor
+ *@param  Just connect the CS pin (pins are optional)
+ *@param  Just connect the DC pin (pins are optional)
  *
 */
 U8G2_SSD1306_128X64_NONAME_F_HW_I2C u8g2(/* rotation=*/U8G2_R0, /* reset=*/ U8X8_PIN_NONE);    //  M0/ESP32/ESP8266/mega2560/Uno/Leonardo
@@ -53,23 +51,24 @@ const uint8_t col[] U8X8_PROGMEM= {0x00,0xc0,0x00,0x00,0x00,0xe0,0x01,0x00,0x00,
 
 void setup() {
   u8g2.begin();
-  u8g2.setFontPosTop();/*使用drawStr显示字符串时，默认标准为显示字符的左下角坐标。
-                          本函数的功能可理解为将标准改为显示字符串的左上角为坐标。*/
+  u8g2.setFontPosTop();/**When you use drawStr to display strings, the default criteria is to display the lower-left
+  * coordinates of the characters.The function can be understood as changing the coordinate position to the upper left
+  * corner of the display string as the coordinate standard.*/
 }
 
 void Rotation() {
   u8g2.setFont(u8g2_font_bracketedbabies_tr);
   u8g2.firstPage(); 
   do {
-    u8g2.drawXBMP( /* x=*/0 , /* y=*/0 , /* width=*/30 , /* height=*/30 , col );//绘制图像
-	/*@brief 设置所有字符串或字形的绘制方向setFontDirection(uint8_t dir)
-   *@param dir=0，旋转0度
-		       dir=1，旋转90度
-			     dir=2，旋转180度
-			     dir=3，旋转270度
-  */
+    u8g2.drawXBMP( /* x=*/0 , /* y=*/0 , /* width=*/30 , /* height=*/30 , col );//Draw a XBM Bitmap. Position (x,y) is the upper left corner of the bitmap. XBM contains monochrome, 1-bit bitmaps.
+	 /*@brief Set the drawing direction of all strings or glyphs setFontDirection(uint8_t dir)
+     *@param dir=0
+             dir=1, rotate 0°
+             dir=2, rotate 180°
+             dir=3, rotate 270°
+    */
     u8g2.setFontDirection(0);			
-    u8g2.drawStr( /* x=*/64,/* y=*/32, " DFR");		//绘制字符串
+    u8g2.drawStr( /* x=*/64,/* y=*/32, " DFR");		//Start drawing strings at the coordinates of x-64, y-32 “DFR”
     u8g2.setFontDirection(1);
     u8g2.drawStr(64,32, " DFR");
     u8g2.setFontDirection(2);
@@ -101,11 +100,10 @@ void loop(void)
             break;
        }
 	   /*
-      * u8g2.firstPage()/nextPage()：循环刷新显示。
-      * firstPage方法会把当前页码位置变成0
-      * 修改内容处于firstPage和nextPage之间，每次都是重新渲染所有内容
-       * 该方法消耗的ram空间，比sendBuffer消耗的ram空间要少
-     */ 
+       * firstPage will change the current page number position to 0
+       * When modifications are between firstpage and nextPage, they will be re-rendered at each time.
+       * This method consumes less ram space than sendBuffer
+      */ 
       u8g2.firstPage();  
       do 
       {

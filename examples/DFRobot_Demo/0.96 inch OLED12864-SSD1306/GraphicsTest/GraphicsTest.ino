@@ -66,73 +66,97 @@
 
 
 void u8g2_prepare(void) {
-  u8g2.setFont(u8g2_font_6x10_tf);	//设置字体为"u8g2_font_6x10_tf"
+  u8g2.setFont(u8g2_font_6x10_tf);	//Set the font to "u8g2_font_6x10_tf"
   u8g2.setFontRefHeightExtendedText();	//Ascent will be the largest ascent of "A", "1" or "(" of the current font. Descent will be the descent of "g" or "(" of the current font.
-  u8g2.setDrawColor(1);	//定义所有绘图功能的位值（颜色索引）。所有绘图功能都会将显示存储器更改为该位值。默认值为1。
-  u8g2.setFontPosTop();	 /*使用drawStr显示字符串时，默认标准为显示字符的左下角坐标。
-                          本函数的功能可理解为将坐标位置改为显示字符串的左上角为坐标标准。*/
-  u8g2.setFontDirection(0);	//设置屏幕方向：0--为正常显示
+  u8g2.setDrawColor(1);	//Ascent will be the largest ascent of "A", "1" or "(" of the current font. Descent will be the descent of "g" or "(" of the current font.
+  u8g2.setFontPosTop();	 /*When you use drawStr to display strings, the default criteria is to display the lower-left coordinates of the characters.
+                        XXXX  */
+  u8g2.setFontDirection(0);	//Set the screen orientation: 0 -- for normal display
 }
 
 void u8g2_box_title(uint8_t a) {
-  u8g2.drawStr( 10+a*2, 5, "U8g2");
+  u8g2.drawStr( 10+a*2, 5, "U8g2"); //Draw string "U8g2"
   u8g2.drawStr( 10, 20, "GraphicsTest");
   
-  u8g2.drawFrame(0,0,u8g2.getDisplayWidth(),u8g2.getDisplayHeight() );	//在坐标为(0,0)的位置开始绘制一个宽度w和高度h的空框
+  u8g2.drawFrame(0,0,u8g2.getDisplayWidth(),u8g2.getDisplayHeight() );	//Start drawing an empty box of width w and height h at a coordinate of (0,0)
 }
 
+/*
+ * Draw solid squares and hollow squares
+*/
 void u8g2_box_frame(uint8_t a) {
   u8g2.drawStr( 0, 0, "drawBox");
-  u8g2.drawBox(5,10,20,10);	//在坐标为(5,10)的位置开始绘制一个宽度w和高度h的实心框
+  u8g2.drawBox(5,10,20,10);	//Start drawing a solid square with a width w and a height h at a position with coordinates of (5, 10)
   u8g2.drawBox(10+a,15,30,7);
   u8g2.drawStr( 0, 30, "drawFrame");
   u8g2.drawFrame(5,10+30,20,10);
   u8g2.drawFrame(10+a,15+30,30,7);
 }
 
+/*
+ * Draw solid and hollow circles
+*/
 void u8g2_disc_circle(uint8_t a) {
   u8g2.drawStr( 0, 0, "drawDisc");
-  u8g2.drawDisc(10,18,9);	//在位置(10,18)绘制一个半径为9的实心圆。
+  u8g2.drawDisc(10,18,9);	//Draw a solid circle with a radius of 10 at the position (10, 18)
   u8g2.drawDisc(24+a,16,7);
   u8g2.drawStr( 0, 30, "drawCircle");
-  u8g2.drawCircle(10,18+30,9);	//在位置(10,18+30)绘制一个半径为9的空心圆。
+  u8g2.drawCircle(10,18+30,9);	//Draw a hollow circle with a radius of 10 at the position (10, 18+30)
   u8g2.drawCircle(24+a,16+30,7);
 }
 
+/*
+ * Draw solid and hollow boxes
+*/
 void u8g2_r_frame(uint8_t a) {
   u8g2.drawStr( 0, 0, "drawRFrame/Box");
-  u8g2.drawRFrame(5, 10,40,30, a+1);	//在位置(5,10)开始绘制宽度为40，高度为30一个具有半径为a+1的圆形边缘的框（空心）。
-  u8g2.drawRBox(50, 10,25,40, a+1);		//在位置(50,10)开始绘制宽度为25，高度为40一个具有半径为a+1的圆形边缘的框（实心）。
+  u8g2.drawRFrame(5, 10,40,30, a+1);	//At the position (5 ,10) start drawing with a width of 40 and a height of 30 a frame with a radius of a+1 circular edge (hollow).
+  u8g2.drawRBox(50, 10,25,40, a+1);		//At the position (50,10) start drawing with a width of 25 and a height of 40 a frame with a circular edge with a radius of a 1 (solid).
 }
 
 void u8g2_string(uint8_t a) {
-  u8g2.setFontDirection(0);	//设置字体显示方向：正常显示
+/*@brief Set the drawing direction of all strings or glyphs setFontDirection(uint8_t dir)
+     *@param dir=0
+             dir=1, rotate 0°
+             dir=2, rotate 180°
+             dir=3, rotate 270°
+    */
+  u8g2.setFontDirection(0);	
   u8g2.drawStr(30+a,31, " 0");
-  u8g2.setFontDirection(1);	//设置字体显示方向：顺时针旋转90度
+  u8g2.setFontDirection(1);	
   u8g2.drawStr(30,31+a, " 90");
-  u8g2.setFontDirection(2);	//设置字体显示方向：顺时针旋转180度
+  u8g2.setFontDirection(2);	
   u8g2.drawStr(30-a,31, " 180");
-  u8g2.setFontDirection(3);	//设置字体显示方向：顺时针旋转270度
+  u8g2.setFontDirection(3);	
   u8g2.drawStr(30,31-a, " 270");
 }
 
+/*
+ * Draw segments
+*/
 void u8g2_line(uint8_t a) {
   u8g2.drawStr( 0, 0, "drawLine");
-  u8g2.drawLine(7+a, 10, 40, 55);	//在两点之间画一条线。（参数为两点坐标）
+  u8g2.drawLine(7+a, 10, 40, 55);	//Draw a line between two points. (Argument is two-point coordinates)
   u8g2.drawLine(7+a*2, 10, 60, 55);
   u8g2.drawLine(7+a*3, 10, 80, 55);
   u8g2.drawLine(7+a*4, 10, 100, 55);
 }
 
+/*
+ * Draw solid triangles and hollow triangles
+*/
 void u8g2_triangle(uint8_t a) {
   uint16_t offset = a;
   u8g2.drawStr( 0, 0, "drawTriangle");
-  u8g2.drawTriangle(14,7, 45,30, 10,40);	//绘制一个三角形（实心多边形）。（参数为三角形三个顶点坐标）
+  u8g2.drawTriangle(14,7, 45,30, 10,40);	//Draw a triangle (solid polygon). (Argument is triangle three vertex coordinates)
   u8g2.drawTriangle(14+offset,7-offset, 45+offset,30-offset, 57+offset,10-offset);
   u8g2.drawTriangle(57+offset*2,10, 45+offset*2,30, 86+offset*2,53);
   u8g2.drawTriangle(10+offset,40+offset, 45+offset,30+offset, 86+offset,53+offset);
 }
 
+/*
+ * Show characters in the ASCII code table
+*/
 void u8g2_ascii_1() {
   char s[2] = " ";
   uint8_t x, y;
@@ -157,12 +181,15 @@ void u8g2_ascii_2() {
   }
 }
 
+/*
+ * Draw a string icon in a UTF-8 encoding
+*/
 void u8g2_extra_page(uint8_t a)
 {
   u8g2.drawStr( 0, 0, "Unicode");
   u8g2.setFont(u8g2_font_unifont_t_symbols);
   u8g2.setFontPosTop();
-  u8g2.drawUTF8(0, 24, "☀ ☁");	//在位置(0,24)开始绘制一个编码为UTF-8的字符串图标。	
+  u8g2.drawUTF8(0, 24, "☀ ☁");	//Start drawing a string icon encoded as UTF-8 at the location (0,24)
   switch(a) {
     case 0:
     case 1:
@@ -179,6 +206,11 @@ void u8g2_extra_page(uint8_t a)
   }
 }
 
+/*
+ * Show the reverse display of font. Which means the font is displayed interchangeable with 
+ * the background color. (For example, it would have been black on white, replaced by white
+ * on black)
+*/
 void u8g2_xor(uint8_t a) {
   uint8_t i;
   u8g2.drawStr( 0, 0, "XOR");
@@ -198,7 +230,7 @@ void u8g2_xor(uint8_t a) {
 }
 
 /*
- *这是一个图形转换成位图的数据，用于使用drawXBMP()显示
+ *This is the data of converting a graph to bitmap for using the drawXBMP () to display. 
 */
 #define cross_width 24
 #define cross_height 24
@@ -227,6 +259,9 @@ static const unsigned char cross_block_bits[] U8X8_PROGMEM  = {
   0xC1, 0x20, 0xC1, 0x20, 0x01, 0x20, 0x01, 0x20, 0x01, 0x20, 0x01, 0x20, 
   0x01, 0x20, 0xFF, 0x3F, };
 
+/*
+ * Draw a bitmap
+*/
 void u8g2_bitmap_overlay(uint8_t a) {
   uint8_t frame_size = 28;
 
@@ -238,9 +273,18 @@ void u8g2_bitmap_overlay(uint8_t a) {
   u8g2.drawXBMP(2, 12, cross_width, cross_height, cross_bits);
   if(a & 4)
     u8g2.drawXBMP(7, 17, cross_block_width, cross_block_height, cross_block_bits);
-
+  /*
+ * Set the pattern of the bitmap to define whether the background color is written to the bitmap function  
+ * (Mode0/solid，is_transparent = 0).
+ * Or not write the background color to the bitmap function. (Mode1/solid，is_transparent = 1). 
+ * The default mode is 0(fixed mode).
+*/
   u8g2.setBitmapMode(true /* transparent*/);
   u8g2.drawFrame(frame_size + 5, 10, frame_size, frame_size);
+  /*
+ * The position (x,y) is the upper-left corner of the bitmap. XBM contains a monochrome 1-bit bitmap.
+ * The current color index is used for drawing (refers to setColorIndex) pixel value1.
+*/
   u8g2.drawXBMP(frame_size + 7, 12, cross_width, cross_height, cross_bits);
   if(a & 4)
     u8g2.drawXBMP(frame_size + 12, 17, cross_block_width, cross_block_height, cross_block_bits);
@@ -269,8 +313,12 @@ void u8g2_bitmap_modes(uint8_t transparent) {
   u8g2.drawXBMP(frame_size * 3.5, 24, cross_width, cross_height, cross_bits);
 }
 
+//Define the initial variable for the drawing state
 uint8_t draw_state = 0;
 
+/*
+ * Draw functions: call other functions in an orderly manner.
+*/
 void draw(void) {
   u8g2_prepare();
   switch(draw_state >> 3) {
@@ -293,7 +341,7 @@ void draw(void) {
 
 
 void setup(void) {
-  u8g2.begin();
+  u8g2.begin(); //Initialize the function
 }
 
 void loop(void) {

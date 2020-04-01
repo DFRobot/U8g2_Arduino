@@ -1,8 +1,8 @@
 /*!
  * @file Font.ino
- * @brief U8G2中支持多种语言的显示
- * @n U8G2支持多种语言，此demo展示了中、英、韩、日四国语言。
- * @n U8G2字体GitHub连接：https://github.com/olikraus/u8g2/wiki/fntlistall
+ * @brief Display multiple languages in U8G2
+ * @n A demo for displaying “hello world！” in Chinese, English, Korean, Japanese
+ * @n U8G2 Font GitHub Link：https://github.com/olikraus/u8g2/wiki/fntlistall
  * 
  * @copyright  Copyright (c) 2010 DFRobot Co.Ltd (http://www.dfrobot.com)
  * @licence     The MIT License (MIT)
@@ -17,24 +17,22 @@
 #include <Arduino.h>
 #include <U8g2lib.h>
 
-/*
- * 默认只打开了IIC;若想使用SPI，则将对应的有关SPI的文件和实体化函数打开，将IIC的实体化函数注释掉
-*/
 //#include <SPI.h>
 #include <Wire.h>
 
 
 /*
- * 显示屏硬件IIC接口构造函数
- *@param rotation：U8G2_R0 不旋转，横向，绘制方向从左到右
-		   U8G2_R1 顺时针旋转90度，绘制方向从上到下
-		   U8G2_R2 顺时针旋转180度，绘制方向从右到左
-		   U8G2_R3 顺时针旋转270度，绘制方向从下到上
-		   U8G2_MIRROR 正常显示镜像内容（v2.6.x版本以上使用)   注意:U8G2_MIRROR需要与setFlipMode（）配搭使用.
- *@param reset：U8x8_PIN_NONE 表示引脚为空，不会使用复位引脚
- * 显示屏硬件SPI接口构造函数
- *@param  cs 按引脚接上即可（引脚可自己选择）
- *@param  dc 按引脚接上即可（引脚可自己选择）
+ * Display hardware IIC interface constructor
+ *@param rotation：U8G2_R0 Not rotate, horizontally, draw direction from left to right
+           U8G2_R1 Rotate clockwise 90 degrees, drawing direction from top to bottom
+           U8G2_R2 Rotate 180 degrees clockwise, drawing in right-to-left directions
+           U8G2_R3 Rotate clockwise 270 degrees, drawing direction from bottom to top
+           U8G2_MIRROR Normal display of mirror content (v2.6.x version used above)
+           Note: U8G2_MIRROR need to be used with setFlipMode().
+ *@param reset：U8x8_PIN_NONE Indicates that the pin is empty and no reset pin is used
+ * Display hardware SPI interface constructor
+ *@param  Just connect the CS pin (pins are optional)
+ *@param  Just connect the DC pin (pins are optional)
  *
 */
 U8G2_SSD1306_128X64_NONAME_F_HW_I2C u8g2(/* rotation=*/U8G2_R0, /* reset=*/ U8X8_PIN_NONE);    //  M0/ESP32/ESP8266/mega2560/Uno/Leonardo
@@ -43,38 +41,39 @@ U8G2_SSD1306_128X64_NONAME_F_HW_I2C u8g2(/* rotation=*/U8G2_R0, /* reset=*/ U8X8
 
 
 void setup(void) {
-  u8g2.begin();    //初始化函数
-  u8g2.enableUTF8Print();		// 为Arduino print（）函数启用UTF8支持
+  u8g2.begin();    //init
+  u8g2.enableUTF8Print();		// Enable UTF8 support for Arduino print（）function.
 }
 
 void loop(void) 
 {
   /*
-   *字库占用的内存较大，谨慎使用。若只需显示固定几个字，可自行获得汉字编码，
-   *通过drawXBM的方法去显示。或者使用内存更大的主控
-   *中文字库：需要使用比Leonardo内存更大的主控
-   *日文字库：需要使用比UNO内存更大的主控
-   *韩文字库：由于Arduino现有版本的INO文件无法支持显示韩文字符，但是在屏幕上可以正常显示
+   *The font takes up a lot of memory, so please use it with caution. Get your own Chinese encode for displaying only several fixed words.
+   *Display by drawXBM or use controller with larger memory
+   *Chinese Font：require a controller with larger memory than Leonardo  
+   *Japanese Font：require a controller with larger memory than UNO
+   *Korean Font：Arduino INO files of the current version do not support for displaying Korean, but it can displayed properly on the Screen
   */
-  u8g2.setFont(u8g2_font_unifont_t_chinese2);  //对“你好世界”的所有字形使用chinese2字体
-  //u8g2.setFont(u8g2_font_b10_t_japanese1);  // 日语中已经包含了所有“こんにちは世界”的字形1：Lerning 1-6级
-  //u8g2.setFont(u8g2_font_unifont_t_korean1);  // 日语中已经包含了所有“안녕하세요세계”的字形：Lerning 1-2级
-  /*@brief 设置所有字符串或字形的绘制方向setFontDirection(uint8_t dir)
-   *@param dir=0，旋转0度
-           dir=1，旋转90度
-           dir=2，旋转180度
-           dir=3，旋转270度
+  u8g2.setFont(u8g2_font_unifont_t_chinese2);  //Set all fonts in “你好世界” to chinese2
+  //u8g2.setFont(u8g2_font_b10_t_japanese1);  // Japanese 1 includes all fonts in “こんにちは世界” ：Lerning level 1-6  
+  //u8g2.setFont(u8g2_font_unifont_t_korean1);  // Korean 1 includes all fonts in “안녕하세요세계”：Lerning level 1-2
+  
+  /*@brief Set font direction  of all strings setFontDirection(uint8_t dir)
+   *@param dir=0，rotate 0 degree
+                 dir=1，rotate 90 degrees
+                 dir=2，rotate 180 degrees
+                 dir=3，rotate 270 degrees
+   *@param When completed font setting, re-set the cursor position to display normally. Refer to API description for more details.
   */
   u8g2.setFontDirection(0); 
   /*
-   * u8g2.firstPage()/nextPage()：循环刷新显示。
-   * firstPage方法会把当前页码位置变成0
-   * 修改内容处于firstPage和nextPage之间，每次都是重新渲染所有内容
-   * 该方法消耗的ram空间，比sendBuffer消耗的ram空间要少
-  */ 
+   * firstPage Change the current page number position to 0 
+   * Revise content in firstPage and nextPage, re-render everything every time
+   * This method consumes less ram space than sendBuffer
+  */
   u8g2.firstPage();
   do {
-    u8g2.setCursor(/* x=*/0, /* y=*/15);    //设置光标位置
+    u8g2.setCursor(/* x=*/0, /* y=*/15);    //Define the cursor of print function, any output of the print function will start at this position.
     u8g2.print("Hello World!");
     u8g2.setCursor(0, 30);
     u8g2.print("你好世界");		// Chinese "Hello World" 

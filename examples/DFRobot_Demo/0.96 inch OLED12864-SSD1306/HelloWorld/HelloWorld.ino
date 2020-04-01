@@ -15,23 +15,21 @@
 #include <Arduino.h>
 #include <U8g2lib.h>
 
-/*
- * 默认只打开了IIC;若想使用SPI，则将对应的有关SPI的文件和实体化函数打开，将IIC的实体化函数注释掉
-*/
 //#include <SPI.h>
 #include <Wire.h>
 
 /*
- * 显示屏硬件IIC接口构造函数
- *@param rotation：U8G2_R0 不旋转，横向，绘制方向从左到右
-		   U8G2_R1 顺时针旋转90度，绘制方向从上到下
-		   U8G2_R2 顺时针旋转180度，绘制方向从右到左
-		   U8G2_R3 顺时针旋转270度，绘制方向从下到上
-		   U8G2_MIRROR 正常显示镜像内容（v2.6.x版本以上使用)   注意:U8G2_MIRROR需要与setFlipMode（）配搭使用.
- *@param reset：U8x8_PIN_NONE 表示引脚为空，不会使用复位引脚
- * 显示屏硬件SPI接口构造函数
- *@param  cs 按引脚接上即可（引脚可自己选择）
- *@param  dc 按引脚接上即可（引脚可自己选择）
+ * Display hardware IIC interface constructor
+ *@param rotation：U8G2_R0 Not rotate, horizontally, draw direction from left to right
+           U8G2_R1 Rotate clockwise 90 degrees, drawing direction from top to bottom
+           U8G2_R2 Rotate 180 degrees clockwise, drawing in right-to-left directions
+           U8G2_R3 Rotate clockwise 270 degrees, drawing direction from bottom to top
+           U8G2_MIRROR Normal display of mirror content (v2.6.x version used above)
+           Note: U8G2_MIRROR need to be used with setFlipMode().
+ *@param reset：U8x8_PIN_NONE Indicates that the pin is empty and no reset pin is used
+ * Display hardware SPI interface constructor
+ *@param  Just connect the CS pin (pins are optional)
+ *@param  Just connect the DC pin (pins are optional)
  *
 */
 U8G2_SSD1306_128X64_NONAME_F_HW_I2C u8g2(/* rotation=*/U8G2_R0, /* reset=*/ U8X8_PIN_NONE);    //  M0/ESP32/ESP8266/mega2560/Uno/Leonardo

@@ -1,7 +1,7 @@
 /*!
  * @file Cube.ino
- * @brief 旋转的三维立体图形
- * @n 这是一个简单的旋转四面体
+ * @brief Rotating 3D stereoscopic graphics
+ * @n This is a simple rotating tetrahexon
  * 
  * @copyright  Copyright (c) 2010 DFRobot Co.Ltd (http://www.dfrobot.com)
  * @licence     The MIT License (MIT)
@@ -18,18 +18,18 @@
 #include <Wire.h>
 
 /*
- *IIC构造函数
- *@param  rotation：	U8G2_R0 不旋转，横向，绘制方向从左到右
-		                U8G2_R1 顺时针旋转90度，绘制方向从上到下
-			            U8G2_R2 顺时针旋转180度，绘制方向从右到左
-			            U8G2_R3 顺时针旋转270度，绘制方向从下到上
-			            U8G2_MIRROR 正常显示镜像内容（v2.6.x版本以上使用)   注意:U8G2_MIRROR需要与setFlipMode（）配搭使用.
- *@param reset：U8x8_PIN_NONE 表示引脚为空，不会使用复位引脚
+ *IIC Constructor
+ *@param  rotation：    U8G2_R0 No rotation, horizontal, draw from left to right
+                        U8G2_R1 Rotate 90 degrees clockwise, draw from top to  bottom
+                        U8G2_R2 Rotate 180 degrees clockwise, draw from right to left 
+                        U8G2_R3 Rotate 270 degrees clockwise, draw from bottom to top.
+                        U8G2_MIRROR Display image content normally（v2.6.x and above)   Note: U8G2_MIRROR needs to be used with setFlipMode（）.
+ *@param reset：U8x8_PIN_NONE Empty pin, reset pin will not be used.
  *
 */
 U8G2_SSD1306_128X32_UNIVISION_F_HW_I2C u8g2(U8G2_R0, /* reset=*/ U8X8_PIN_NONE);//  M0/ESP32/ESP8266/mega2560/Uno/Leonardo
 
-//二维数组，里面存储了四面体所有顶点的坐标
+//2D array: The coordinates of all vertices of the tetrahesome are stored
 double tetrahedron[4][3] = {{0,15,-15},{-15,-15,-15},{15,-15,-15},{0,0,15}};
 void setup(void) {
   u8g2.begin();  
@@ -37,21 +37,20 @@ void setup(void) {
 
 void loop(void) {
   /*
-   * u8g2.firstPage()/nextPage()：循环刷新显示。
-   * firstPage方法会把当前页码位置变成0
-   * 修改内容处于firstPage和nextPage之间，每次都是重新渲染所有内容
-   * 该方法消耗的ram空间，比sendBuffer消耗的ram空间要少
-  */ 
+       * firstPage will change the current page number position to 0
+       * When modifications are between firstpage and nextPage, they will be re-rendered at each time.
+       * This method consumes less ram space than sendBuffer
+   */ 
   u8g2.firstPage();
   do {
-  //将四面体里面相对应的点连接到一起
+  //Connect the corresponding points inside the tetrahethal together
   u8g2.drawLine(OxyzToOu(tetrahedron[0][0], tetrahedron[0][2]), OxyzToOv(tetrahedron[0][1], tetrahedron[0][2]), OxyzToOu(tetrahedron[1][0], tetrahedron[1][2]), OxyzToOv(tetrahedron[1][1], tetrahedron[1][2]));
   u8g2.drawLine(OxyzToOu(tetrahedron[1][0], tetrahedron[1][2]), OxyzToOv(tetrahedron[1][1], tetrahedron[1][2]), OxyzToOu(tetrahedron[2][0], tetrahedron[2][2]), OxyzToOv(tetrahedron[2][1], tetrahedron[2][2]));
   u8g2.drawLine(OxyzToOu(tetrahedron[0][0], tetrahedron[0][2]), OxyzToOv(tetrahedron[0][1], tetrahedron[0][2]), OxyzToOu(tetrahedron[2][0], tetrahedron[2][2]), OxyzToOv(tetrahedron[2][1], tetrahedron[2][2]));
   u8g2.drawLine(OxyzToOu(tetrahedron[0][0], tetrahedron[0][2]), OxyzToOv(tetrahedron[0][1], tetrahedron[0][2]), OxyzToOu(tetrahedron[3][0], tetrahedron[3][2]), OxyzToOv(tetrahedron[3][1], tetrahedron[3][2]));
   u8g2.drawLine(OxyzToOu(tetrahedron[1][0], tetrahedron[1][2]), OxyzToOv(tetrahedron[1][1], tetrahedron[1][2]), OxyzToOu(tetrahedron[3][0], tetrahedron[3][2]), OxyzToOv(tetrahedron[3][1], tetrahedron[3][2]));
   u8g2.drawLine(OxyzToOu(tetrahedron[2][0], tetrahedron[2][2]), OxyzToOv(tetrahedron[2][1], tetrahedron[2][2]), OxyzToOu(tetrahedron[3][0], tetrahedron[3][2]), OxyzToOv(tetrahedron[3][1], tetrahedron[3][2]));
-  // 旋转0.1度
+  // Rotate 0.1°
   rotate(1);
   
   } while ( u8g2.nextPage() );
@@ -59,10 +58,11 @@ void loop(void) {
 }
 
 /*！
- * @brief 将三维坐标系Oxyz里的xz转化为二维坐标系Ouv里面的 u坐标
- * @param 三维坐标系Oxyz里的x坐标    
- * @param 三维坐标系Oxyz里的z坐标
- * @return 二维坐标系Ouv里面的 u坐标
+ * @brief Convert xz in the three-dimensional coordinate system Oxyz
+ * into the u coordinate inside the two-dimensional coordinate system Ouv
+ * @param x in Oxyz  
+ * @param z in Oxyz
+ * @return u in Ouv
  */
 int OxyzToOu(double x,double z){
    
@@ -71,21 +71,22 @@ int OxyzToOu(double x,double z){
 
 
 /*！
- * @brief 将三维坐标系Oxyz里的yz转化为二维坐标系Ouv里面的 v坐标
- * @param 三维坐标系Oxyz里的y坐标    
- * @param 三维坐标系Oxyz里的z坐标
- * @return 二维坐标系Ouv里面的v坐标
- */
+ * @brief Convert the yz in the three-dimensional coordinate system Oxyz into the v coordinate inside 
+ * the two-dimensional coordinate system Ouv
+ * @param y in Oxyz  
+ * @param z in Oxyz
+ * @return v in Ouv
+ */ 
  
 int OxyzToOv(double y,double z){
     return (int)((y + 15) - z*0.35);
 }
 
 /*!
- * @brief  将整个三维图形的所有点的坐标绕 Z轴旋转
- * @param  angle 表示要旋转的角度
+ * @brief  Rotate the coordinates of all points of the entire 3D graphic around the Z axis
+ * @param  angle represents the angle to rotate
  *     
- *  z旋转(z不变)
+ *  z rotation (z unchanged)
     x3 = x2 * cosb - y1 * sinb
     y3 = y1 * cosb + x2 * sinb
     z3 = z2
@@ -103,8 +104,8 @@ void rotate(double angle)
     Xn = (tetrahedron[i][0] * cosa) - (tetrahedron[i][1] * sina);
     Yn = (tetrahedron[i][0] * sina) + (tetrahedron[i][1] * cosa);
 
-    //将已经转化好的的坐标存入坐标数组
-    //由于是绕Z轴旋转，所以点 z 轴的坐标不变
+    //Store converted coordinates into an array of coordinates
+    //Because it rotates around the Z-axis, the coordinates of the point z-axis remain unchanged
     tetrahedron[i][0] = Xn;
     tetrahedron[i][1] = Yn;
   }

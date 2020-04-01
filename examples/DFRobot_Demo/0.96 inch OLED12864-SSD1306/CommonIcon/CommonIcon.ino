@@ -1,8 +1,8 @@
 /*!
  * @file CommonIcon.ino
- * @brief U8G2中支持的几种常见图标的显示
- * @n U8G2支持多种大小的图标，此demo选取几种进行显示
- * @n U8G2图标GitHub连接：https://github.com/olikraus/u8g2/wiki/fntlistall
+ * @brief Display of several common icons supported in U8G2
+ * @n U8G2 supports multiple sizes of icons, this demo selects several for display
+ * @n U8G2 GitHub Link：https://github.com/olikraus/u8g2/wiki/fntlistall
  * 
  * @copyright  Copyright (c) 2010 DFRobot Co.Ltd (http://www.dfrobot.com)
  * @licence     The MIT License (MIT)
@@ -16,23 +16,21 @@
 #include <Arduino.h>
 #include <U8g2lib.h>
 
-/*
- * 默认只打开了IIC;若想使用SPI，则将对应的有关SPI的文件和实体化函数打开，将IIC的实体化函数注释掉
-*/
 //#include <SPI.h>
 #include <Wire.h>
 
 /*
- * 显示屏硬件IIC接口构造函数
- *@param rotation：U8G2_R0 不旋转，横向，绘制方向从左到右
-		   U8G2_R1 顺时针旋转90度，绘制方向从上到下
-		   U8G2_R2 顺时针旋转180度，绘制方向从右到左
-		   U8G2_R3 顺时针旋转270度，绘制方向从下到上
-		   U8G2_MIRROR 正常显示镜像内容（v2.6.x版本以上使用)   注意:U8G2_MIRROR需要与setFlipMode（）配搭使用.
- *@param reset：U8x8_PIN_NONE 表示引脚为空，不会使用复位引脚
- * 显示屏硬件SPI接口构造函数
- *@param  cs 按引脚接上即可（引脚可自己选择）
- *@param  dc 按引脚接上即可（引脚可自己选择）
+ * Display hardware IIC interface constructor
+ *@param rotation：U8G2_R0 Not rotate, horizontally, draw direction from left to right
+           U8G2_R1 Rotate clockwise 90 degrees, drawing direction from top to bottom
+           U8G2_R2 Rotate 180 degrees clockwise, drawing in right-to-left directions
+           U8G2_R3 Rotate clockwise 270 degrees, drawing direction from bottom to top
+           U8G2_MIRROR Normal display of mirror content (v2.6.x version used above)
+           Note: U8G2_MIRROR need to be used with setFlipMode().
+ *@param reset：U8x8_PIN_NONE Indicates that the pin is empty and no reset pin is used
+ * Display hardware SPI interface constructor
+ *@param  Just connect the CS pin (pins are optional)
+ *@param  Just connect the DC pin (pins are optional)
  *
 */
 U8G2_SSD1306_128X64_NONAME_F_HW_I2C u8g2(/* rotation=*/U8G2_R0, /* reset=*/ U8X8_PIN_NONE);    //  M0/ESP32/ESP8266/mega2560/Uno/Leonardo
@@ -41,42 +39,30 @@ U8G2_SSD1306_128X64_NONAME_F_HW_I2C u8g2(/* rotation=*/U8G2_R0, /* reset=*/ U8X8
 
 void setup(void)
 {
-  u8g2.begin();
-  u8g2.setFontPosTop();  /*使用drawStr显示字符串时，默认标准为显示字符的左下角坐标。
-                          本函数的功能可理解为将标准改为显示字符串的左上角为坐标。*/
+  u8g2.begin();  //init
+  u8g2.setFontPosTop();  /**When you use drawStr to display strings, the default criteria is to display the lower-left
+  * coordinates of the characters.The function can be understood as changing the coordinate position to the upper left
+  * corner of the display string as the coordinate standard.*/
 }
 
 
-/*
- * 选择字集
- * u8g2_font_open_iconic_all_1x_t :Width :8  Height :8  
- * u8g2_font_open_iconic_all_2x_t :Width :16  Height :16  
- * u8g2_font_open_iconic_all_4x_t :Width :32  Height :32  
- * u8g2_font_open_iconic_all_6x_t :Width :48  Height :48  
- * u8g2_font_open_iconic_all_8x_t :Width :64  Height :64  
-*/
-
-/*
- * all:  app  arrow  check  email  embedded  gui  human  other  play  text  thing  weather  www
- * all可以细分成不同的类型，图标也对应分到类型中。想要知道每个图标属于哪一类及其具体encoding值，可以通过网址https://github.com/olikraus/u8g2/wiki/fntlistall查询icon进行查看
-*/
 void loop(void)
 {
-  /*
-   * u8g2.firstPage()/nextPage()：循环刷新显示。
-   * firstPage方法会把当前页码位置变成0
-   * 修改内容处于firstPage和nextPage之间，每次都是重新渲染所有内容
-   * 该方法消耗的ram空间，比sendBuffer消耗的ram空间要少
-  */ 
+	/*
+       * firstPage will change the current page number position to 0
+       * When modifications are between firstpage and nextPage, they will be re-rendered at each time.
+       * This method consumes less ram space than sendBuffer
+   */ 
    u8g2.firstPage();
    for(int i = 64 ; i <287; i++){
    u8g2.clear();
    do
    {
-      u8g2.setFont(u8g2_font_open_iconic_all_4x_t );
+      u8g2.setFont(u8g2_font_open_iconic_all_4x_t );  //Set the font to "u8g2_font_open_iconic_all_4x_t"
       /*
-       * 绘制字体字集的符号。
-       * U8g2支持16位以内的unicode字符集。也就是说encoding的范围为0-65535，drawGlyph方法只能绘制存在于所使用的字体字集中的unicode值；
+       * Draw a single character. The character is placed at the specified pixel posion x and y. 
+	   * U8g2 supports the lower 16 bit of the unicode character range (plane 0/Basic Multilingual Plane): 
+	   * The encoding can be any value from 0 to 65535. The glyph can be drawn only, if the encoding exists in the active font.
       */
       u8g2.drawGlyph(/* x=*/0, /* y=*/16, /* encoding=*/i);  
       u8g2.drawGlyph(/* x=*/48, /* y=*/16, /* encoding=*/i+1);  
