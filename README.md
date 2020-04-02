@@ -10,30 +10,32 @@ Issue Tracker: https://github.com/olikraus/u8g2/issues
 
 Download (2.26.14): https://github.com/olikraus/U8g2_Arduino/archive/master.zip
 
-## U8g2_Arduino:单色图像显示库
-* `U8g2_Arduino`是一个功能强大的单色图像显示库，提供了通用的基础显示（点、线、圆等）、各种常用的图标、好看的字体等。DFRobot基于自身产品，对`U8g2_Arduino`进行了修改：
-    1. 增加了DFRobot_Demo文件夹，提供了产品的特色Demo。
-    1. 对所有Demo的实体化函数进行了删减。
+## U8g2_Arduino:Monochrome image display library
+* 
+`U8g2_Arduino` is a powerful monochrome image display library that provides universal basic display (points, lines, circles, etc.), various commonly used icons, and beautiful fonts.
+DFRobot has modified `U8g2_Arduino` based on its own products:
+    1. Added the DFRobot_Demo folder to provide product-specific Demos.
+    1. All materialized functions of Demo have been deleted.
 
 
-## 功能列表
-`U8g2_Arduino`集成了大量的功能组件。可以实现丰富的单色显示效果。
+## Function list
+`U8g2_Arduino` integrates a large number of functional components. Can achieve rich monochrome display effects.
 
-`U8g2_Arduino` API接口函数：https://github.com/olikraus/u8g2/wiki/u8g2reference#updatedisplayarea=%E5%BA%93%E6%96%87%E4%BB%B6
+`U8g2_Arduino` API functions:https://github.com/olikraus/u8g2/wiki/u8g2reference#updatedisplayarea=%E5%BA%93%E6%96%87%E4%BB%B6
 
-`U8g2_Arduino` 字体参数列表：https://github.com/olikraus/u8g2/wiki/fntlistall
+`U8g2_Arduino` Font parameter list:https://github.com/olikraus/u8g2/wiki/fntlistall
 
-## U8g2_Arduino兼容性
-`U8g2_Arduino`可以支持多种MCU，下表可以查看支持的MCU型号。
+## U8g2_Arduino compatibility
+`U8g2_Arduino` can support a variety of MCUs. The following table shows the supported MCU models.
 
-主控          |     Uno      |   Leonardo    |     FireBeetleESP32     |    FireBeetleESP8266    |     m0         |     BK7251      
+MCU          |     Uno      |   Leonardo    |     FireBeetleESP32     |    FireBeetleESP8266    |     m0         |     BK7251      
 -----------  | :----------: |  :----------: |  :----------: |  :----------: | :------------: |   ------------
 U8g2_Arduino |      √       |       √       |      √        |       √       |       √        |  
 
 
-## U8g2_Arduino支持屏幕
+## `U8g2_Arduino` supported screens
  
-`U8g2_Arduino`目前支持多种的显示驱动IC和分辨率，下表查看目前可用的驱动和屏幕。U8g2_Arduino根据产品会进行实时更新。<br>
+`U8g2_Arduino` currently supports a variety of display driver ICs and resolutions. The following table shows the currently available drivers and screens.When the product is updated, we will update the `U8g2_Arduino` simultaneously.<br>
 
 * SSD1306 0.91" OLED-A<br>
 [产品图片]
@@ -43,24 +45,24 @@ U8g2_Arduino |      √       |       √       |      √        |       √   
 [产品图片]
 
 
-## 安装U8g2_Arduino固件
-`U8g2_Arduino`可以满足不同软件开发水平的人使用。对于初学者，您只需有Arduino基础，就可以进行丰富多样的显示。`U8g2_Arduino` API接口函数链接可以帮助你学习。
+## Install `U8g2_Arduino` firmware
+`U8g2_Arduino` can be used by people with different software development levels.For beginners, you only need to have the basics of Arduino to perform a variety of displays.`U8g2_Arduino` API function link can help you learn.
 
-1. 下载Arduino IDE<br>
-1. 从github下载`U8g2_Arduino`代码<br>
-1. 使用Arduino IDE从下载的文件中打开“GraphicsTest.ino”<br>
-1. 连接您的Arduino Uno开发板<br>
-1. 选择工具>板子：Arduino Uno和工具>端口：选择你的Arduino开发板<br>
-1. 单击“验证”，然后将软件“上传”到您的开发板上
+1. DownloadArduino IDE<br>
+1. Download the `U8g2_Arduino` code from github<br>
+1. Open "GraphicsTest.ino" from the downloaded file by Arduino IDE<br>
+1. Connect your Arduino Uno board<br>
+1. Select Tools> Board: Arduino Uno and Tools> Port: Select your Arduino board<br>
+1. Click "Verify" and "Upload" the software to your development board
 
 
 
-## 常见问题
+## Common problem
 
-1、问：为什么有的示例程序在Arduino UNO/Leonardo上运行不了？
+1、Q: Why can't some Demo run on Arduino UNO / Leonardo?
     
- * 答：因为Arduino UNO/Leonardo内存大小，无法存储下整个程序；您可以换一个内存较大的主控，如Firebettle-ESP32等。我们在每一个ino的头文件都有对应的说明，大家可以详细阅读。<br>
+ * Answer: Because of the memory size of Arduino UNO / Leonardo, the entire program cannot be stored;You can change to a master with a larger memory, such as Firebettle-ESP32.We have corresponding instructions in each ino header file, you can read it in detail.<br>
 
-2、问：为什么Language.ino中韩文不能正常显示？
+2、Q: Why does Language.ino in Korean not display properly in Arduino IDE?
 
-*  答：这是由于Arduino编码的原因，如果Arduino IDE是utf8编码，就不会有这个问题。虽然在示例程序中不能正常显示，但是上传代码后，屏幕正常显示。
+*  A: This is due to Arduino coding.Although it does not display properly in the sample program, the screen displays normally after uploading the code.
